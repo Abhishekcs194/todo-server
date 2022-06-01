@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const morgan = require("morgan")
 // Will check for .env files and include all values from that file
 require("dotenv/config")
-const MONGODB_URL = process.env.MONDODB_URL
+const MONGODB_URL = process.env.MONGODB_URL
 const PORT = process.env.PORT;
 
 
