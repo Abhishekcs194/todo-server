@@ -94,6 +94,12 @@ app.delete('/api/todos/:todoId', async function (req, res) {
   res.send('OK')
 });
 
+// Error handler
+app.use((err, req, res, next) => {
+  console.error(err.stack)
+  res.status(500).send('Something broke!')
+})
+
 // Starting server on port 9090
 app.listen(PORT, function () {
   console.log("Server started")
