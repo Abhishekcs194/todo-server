@@ -1,6 +1,9 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const morgan = require("morgan")
+const cors  = require('cors');
+
+
 // Will check for .env files and include all values from that file
 require("dotenv/config")
 const MONGODB_URL = process.env.MONGODB_URL
@@ -40,8 +43,12 @@ const TodoSchema = new mongoose.Schema({
 const Todo = mongoose.model('todo', TodoSchema)
 
 
+
 // Initialize the express server
 const app = express();
+
+//Enable cors
+app.use(cors());
 
 // Telling express to parse json data coming form UI
 app.use(express.json());
@@ -88,7 +95,9 @@ app.put('/api/todos/:todoId', async function (req, res) {
 
 // Remove todo
 app.delete('/api/todos/:todoId', async function (req, res) {
+  
   await Todo.findOneAndDelete({
+
     _id: req.params.todoId
   })
   res.send('OK')
