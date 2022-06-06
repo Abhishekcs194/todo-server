@@ -1,6 +1,9 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const morgan = require("morgan")
+const cors  = require('cors');
+
+
 // Will check for .env files and include all values from that file
 require("dotenv/config")
 const MONGODB_URL = process.env.MONGODB_URL
@@ -28,7 +31,7 @@ mongoose.connection.on("error", (error) => {
 const TodoSchema = new mongoose.Schema({
   // _id
   text: {
-     type: String
+    type: String
   },
 
   status: {
@@ -40,8 +43,12 @@ const TodoSchema = new mongoose.Schema({
 const Todo = mongoose.model('todo', TodoSchema)
 
 
+
 // Initialize the express server
 const app = express();
+
+//Enable cors
+app.use(cors());
 
 // Telling express to parse json data coming form UI
 app.use(express.json());
@@ -55,13 +62,13 @@ app.use(morgan('combined'))
 
 // Read todos
 app.get('/api/todos', async function (req, res) {
-  const todos = await Todo.find()  
+  const todos = await Todo.find()
   res.send(todos)
 });
 
 
 // Create todo
-app.post('/api/todos', async function(req, res) {
+app.post('/api/todos', async function (req, res) {
   // Take value from the post body
   const todo = {
     text: req.body.text
@@ -71,13 +78,13 @@ app.post('/api/todos', async function(req, res) {
 
   // Read about HTTP status'
   res
-  .status(201)
-  .send(todo)
+    .status(201)
+    .send(todo)
 })
 
 // Update todo
 // Also used to set flag
-app.put('/api/todos/:todoId', async function(req, res) {
+app.put('/api/todos/:todoId', async function (req, res) {
   const todo = await Todo.findOneAndUpdate({
     _id: req.params.todoId
   }, {
@@ -87,12 +94,20 @@ app.put('/api/todos/:todoId', async function(req, res) {
 });
 
 // Remove todo
-app.delete('/api/todos/:todoId', async function(req, res) {
+app.delete('/api/todos/:todoId', async function (req, res) {
+  
   await Todo.findOneAndDelete({
+
     _id: req.params.todoId
   })
   res.send('OK')
 });
+
+// Error handler
+app.use((err, req, res, next) => {
+  console.error(err.stack)
+  res.status(500).send('Something broke!')
+})
 
 // Starting server on port 9090
 app.listen(PORT, function () {
