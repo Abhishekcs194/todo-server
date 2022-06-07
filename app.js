@@ -109,7 +109,7 @@ app.use((err, req, res, next) => {
   res.status(500).send('Something broke!')
 })
 
-// Starting server on port 9090
+// Starting server on port 8080
 app.listen(PORT, function () {
   console.log("Server started")
 });
