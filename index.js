@@ -16,9 +16,9 @@ mongoose.connect("mongodb://localhost:27017/myLoginRegisterDB ", {
 })
 
 const userSchema = mongoose.Schema({
-    name: string,
-    email: string,
-    password: string
+    name: String,
+    email: String,
+    password: String
 })
 
 const User = new mongoose.model("User", userSchema)
