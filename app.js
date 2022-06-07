@@ -1,7 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const morgan = require("morgan")
-const cors  = require('cors');
+const cors = require('cors');
 
 
 // Will check for .env files and include all values from that file
@@ -27,10 +27,11 @@ mongoose.connection.on("error", (error) => {
 })
 
 
-// Todo Schema
+// Todo Schema 
 const TodoSchema = new mongoose.Schema({
   // _id
   text: {
+
     type: String
   },
 
@@ -95,7 +96,7 @@ app.put('/api/todos/:todoId', async function (req, res) {
 
 // Remove todo
 app.delete('/api/todos/:todoId', async function (req, res) {
-  
+
   await Todo.findOneAndDelete({
 
     _id: req.params.todoId
